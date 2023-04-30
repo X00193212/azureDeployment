@@ -8,92 +8,33 @@
       "templateHash": "2637152180661081755"
     }
   },
-  "parameters": {
-    "clusterName": {
-      "type": "string",
-      "defaultValue": "aks101cluster",
-      "metadata": {
-        "description": "The name of the Managed Cluster resource."
-      }
-    },
-    "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "The location of the Managed Cluster resource."
-      }
-    },
-    "dnsPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "Optional DNS prefix to use with hosted Kubernetes API server FQDN."
-      }
-    },
-    "osDiskSizeGB": {
-      "type": "int",
-      "defaultValue": 0,
-      "maxValue": 1023,
-      "minValue": 0,
-      "metadata": {
-        "description": "Disk size (in GB) to provision for each of the agent pool nodes. This value ranges from 0 to 1023. Specifying 0 will apply the default disk size for that agentVMSize."
-      }
-    },
-    "agentCount": {
-      "type": "int",
-      "defaultValue": 3,
-      "maxValue": 50,
-      "minValue": 1,
-      "metadata": {
-        "description": "The number of nodes for the cluster."
-      }
-    },
-    "agentVMSize": {
-      "type": "string",
-      "defaultValue": "standard_d2s_v3",
-      "metadata": {
-        "description": "The size of the Virtual Machine."
-      }
-    },
-    "linuxAdminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "User name for the Linux Virtual Machines."
-      }
-    },
-    "sshRSAPublicKey": {
-      "type": "string",
-      "metadata": {
-        "description": "Configure all linux machines with the SSH RSA public key string. Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
-      }
-    }
-  },
-  "resources": [
+   "resources": [
     {
       "type": "Microsoft.ContainerService/managedClusters",
       "apiVersion": "2022-05-02-preview",
-      "name": "[parameters('clusterName')]",
-      "location": "[parameters('location')]",
+      "name": "x00193212Cluster",
+      "location": "North Europe",
       "identity": {
         "type": "SystemAssigned"
       },
       "properties": {
-        "dnsPrefix": "[parameters('dnsPrefix')]",
+        "dnsPrefix": "x00193212mycs",
         "agentPoolProfiles": [
           {
             "name": "agentpool",
-            "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
-            "count": "[parameters('agentCount')]",
-            "vmSize": "[parameters('agentVMSize')]",
+            "osDiskSizeGB": "0",
+            "count": "1",
+            "vmSize": "standard_B2s",
             "osType": "Linux",
             "mode": "System"
           }
         ],
         "linuxProfile": {
-          "adminUsername": "[parameters('linuxAdminUsername')]",
+          "adminUsername": "x00193212",
           "ssh": {
             "publicKeys": [
               {
-                "keyData": "[parameters('sshRSAPublicKey')]"
+                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLJeBhRoBCFXcvUtkQF07v42UG4w9cDaG4z5Hl67VU7Dk9IUlUXBRlWz2uPL8D5UbLP93eKdq3d9NKCWnkH/aE8OktgiKJdeF4mb1h0LS4kwvjjtWNo22z1dwsoJlF7owYUX4fBeS8hmmZXZOnbWOPEkG5rJ6o0v3i7KhI2sqmBL30Jtty2ukxhd/wtwwBEC8a0EaFtsqIxVZe7UfEgP/RQb+E/yGQ/JO9ZM45D+4S5BZbwgtgqM9Ofp9voxLyzT/a/KuSx/8IN0pbuvKDWf8QpLnvN7Yks7WYB6sKO2QbSx3xdhyR78kP0p/MZI/VU1cFilEqhSsV0htshC6j7FgFuMvXBgGwkzmmeH6KiuJrzJ3qS6ikKA09Q6iy8HHjULHF2LGzXw3SlgZ51PI6WVkynD8G+kwU/qOnLHWQT7Tw2Fldg0WQ9bDh0bj4tIk7gowom3yM2sAR+o2+saVpnajxBLydijl+Pl9DA7Wcs16WH6Pa5ZQAbEE4QcX94MdpSelXF6Y17xza+mnAOulmO8dCzav+MdwyIL5gd7/B10RYh5ZlANJF+srTrS76e5KzN+BPuIX0X3EbovV2gkmvO5F9X9ctMPXbkSePK4DIyu2Jjn37PaYvkcuJF8kxl9qv/rdw8kpSaI5VDqS76yNwdvlu6D2t5Hcxr13tsWKmtLptBw== ruchira@cc-d5041432-88f9cd79c-ttkps"
               }
             ]
           }
