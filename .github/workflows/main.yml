@@ -1,0 +1,10 @@
+name: Test
+
+on: 
+  workflow_dispatch:
+  
+jobs:
+    uses: azure/login@v1
+    with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  
+  
