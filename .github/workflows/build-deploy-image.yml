@@ -30,7 +30,7 @@ jobs:
       - name: create a docker image of war file
         run: |
           cd ./EAD_WS_CA1_2023
-          docker image build --tag=web-service-ca2:v1 -f ./EAD_WS_CA1_2023/
+          docker image build -t web-service-ca2:v1 -f ./EAD_WS_CA1_2023/Dockerfile .
           docker tag web-service-ca2:v1 ca2acrx00193212.azurecr.io/web-service-ca2:v1
           
       - uses: azure/setup-kubectl@v2.0
