@@ -21,4 +21,4 @@ jobs:
         with:
           distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '11'
-      - run: java HelloWorldApp.java
+      - run: java --version
