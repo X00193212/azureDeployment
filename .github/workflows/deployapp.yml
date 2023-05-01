@@ -21,11 +21,6 @@ jobs:
            
          - name: Install kubectl
            uses: azure/setup-kubectl@v1
-
-         - name: Configure kubectl
-           run: |
-            mkdir -p ~/.kube
-            cp /home/runner/.kube/config ~/.kube/config
            
          - name: deploy image from acr to aks
            run:  kubectl apply -f ./create-nodejs-service-manifest.yaml
