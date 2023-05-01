@@ -40,6 +40,7 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
       - name: push image to acr
         run: |
+          az acr login --name ca2acrx00193212 
           docker push ca2acrx00193212.azurecr.io/web-service-ca2:v1
       - name: associate creds
         run: |
