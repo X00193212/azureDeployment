@@ -15,6 +15,7 @@ jobs:
         uses: thermofisher/setup-maven@v1.0.0
         with:
           maven-version: 3.8.2
+      - run: mvn --version
       - name: Setup java
         uses: actions/setup-java@v3
         with:
