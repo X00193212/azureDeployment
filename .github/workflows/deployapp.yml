@@ -1,6 +1,6 @@
 on: 
   workflow_dispatch:
-
+  
 jobs:
    build:
       runs-on: ubuntu-latest
@@ -16,8 +16,16 @@ jobs:
          - name: associate creds
            run: az aks update -n AKSCluster -g ca2-resource-group --attach-acr ca2acrx00193212
            
+         - name: Install kubectl
+           uses: azure/setup-kubectl@v1
+
+         - name: Configure kubectl
+           run: |
+            mkdir -p ~/.kube
+            cp ${{ github.workspace }}/kubeconfig ~/.kube/config
+           
          - name: deploy image from acr to aks
-           run:  kubectl apply -f "./create-nodejs-service-manifest.yaml"
+           run:  kubectl apply -f ./create-nodejs-service-manifest.yaml
 
             
             
