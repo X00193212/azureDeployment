@@ -109,7 +109,8 @@
                     }
                 },
                 "servicePrincipalProfile": {
-                    "clientId": "e6f055dd-bc46-47b5-907e-280b48d1655b"
+                    "clientId": "e6f055dd-bc46-47b5-907e-280b48d1655b",
+                    "secret": "3OD8Q~X~nLqHKNhtKo0eZnriaY2jJOEV5X1MVdiF"
                 },
                 "nodeResourceGroup": "[concat('MC_ca2-resource-group_', parameters('managedClusters_AKSCluster_name'), '_northeurope')]",
                 "enableRBAC": true,
