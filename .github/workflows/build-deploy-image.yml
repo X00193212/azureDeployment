@@ -1,6 +1,6 @@
 on:
-  workflow_dispatch:
-  
+  workflow_dispatch: 
+    
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -20,8 +20,8 @@ jobs:
       - name: Setup java
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '11'
+          distribution: zulu
+          java-version: 11
       - run: java --version
       - name: create war file
       - run: |
@@ -31,25 +31,26 @@ jobs:
       - run: |
           docker image build --tag=web-service-ca2:v1
           docker tag web-service-ca2:v1 ca2acrx00193212.azurecr.io/web-service-ca2:v1
-
+          
       - uses: azure/setup-kubectl@v2.0
       - name: Log in with Azure
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-
       - name: push image to acr
         run: |
           docker push ca2acrx00193212.azurecr.io/web-service-ca2:v1
-
+          
       - name: associate creds
-        run: az aks update -n AKSCluster -g ca2-resource-group --attach-acr ca2acrx00193212
-
+        run: |
+          az aks update -n AKSCluster -g ca2-resource-group --attach-acr ca2acrx00193212
+          
       - name: kubeconf file generation
-        run: az aks get-credentials --resource-group ca2-resource-group --name AKSCluster
-
+        run: |
+          az aks get-credentials --resource-group ca2-resource-group --name AKSCluster
+          
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
-
+        
       - name: deploy image from acr to aks
         run: kubectl apply -f ./create-service-manifest.yaml
