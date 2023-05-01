@@ -24,12 +24,12 @@ jobs:
           java-version: 11
       - run: java --version
       - name: create war file
-      - run: |
+        run: |
           cd ./EAD_WS_CA1_2023
           mvn clean package
       - name: create a docker image of war file
-      - run: |
-          docker image build --tag=web-service-ca2:v1
+        run: |
+          docker image build --tag=web-service-ca2:v1 .
           docker tag web-service-ca2:v1 ca2acrx00193212.azurecr.io/web-service-ca2:v1
           
       - uses: azure/setup-kubectl@v2.0
@@ -40,7 +40,6 @@ jobs:
       - name: push image to acr
         run: |
           docker push ca2acrx00193212.azurecr.io/web-service-ca2:v1
-          
       - name: associate creds
         run: |
           az aks update -n AKSCluster -g ca2-resource-group --attach-acr ca2acrx00193212
