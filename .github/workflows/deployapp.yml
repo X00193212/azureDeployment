@@ -25,7 +25,7 @@ jobs:
          - name: Configure kubectl
            run: |
             mkdir -p ~/.kube
-            cp ${{ github.workspace }}/kubeconfig ~/.kube/config
+            cp /home/runner/.kube/config ~/.kube/config
            
          - name: deploy image from acr to aks
            run:  kubectl apply -f ./create-nodejs-service-manifest.yaml
