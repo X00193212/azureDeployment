@@ -2,10 +2,10 @@
 	"development": {
         "config_id": "development",
         "app_name": "BP Category Calculator",
-        "database": "mongodb://mongo-0.mongo:xxxx-xxxxxxxx/db,
+        "database": "mongodb://mongo-0.mongo.default.svc.cluster.local:27017/test",
 		"database_name": "test",
 		"database_collection": "customers",
-		"webservice": "http://4.231.130.227:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/",
+		"webservice": "http://20.223.54.111:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/",
 		"exposedPort": "22137"
 	}
 }

@@ -1,0 +1,55 @@
+on:
+  workflow_dispatch: 
+    
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker
+        uses: crazy-max/ghaction-setup-docker@v1
+      - run: |
+          set -x
+          docker version
+          docker run hello-world
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+      - name: create a docker image of fe service from war
+        run: |
+          cd ./EAD_FE_CA1_2023
+          ls
+          docker image build -t fe-service-ca2:v1 -f Dockerfile .
+          docker tag ws-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
+          
+      - uses: azure/setup-kubectl@v2.0
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      - name: push image to acr
+        run: |
+          az acr login --name ca2acrx00193212 
+          docker push ca2acrx00193212.azurecr.io/fe-service-ca2:v1    
+      
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'       
+      - name: associate creds
+        run: |
+          az aks update -n AKSCluster -g my-resource-group --attach-acr ca2acrx00193212
+          
+      - name: kubeconf file generation
+        run: |
+          az aks get-credentials --resource-group my-resource-group --name AKSCluster
+          
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+        
+      - name: deploy image from acr to aks
+        run: |
+         cd ./EAD_FE_CA1_2023
+         kubectl apply -f create-nodejs-service-manifest.yaml
