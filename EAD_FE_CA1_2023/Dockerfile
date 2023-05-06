@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+COPY ./EAD_FE_CA1_2023/package*.json ./
 
 # Note NOT copying entire working dir, ONLY copying the package.json files 
 # This allows us to take advantage of cached Docker layers
