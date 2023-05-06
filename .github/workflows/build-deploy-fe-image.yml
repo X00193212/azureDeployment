@@ -22,7 +22,7 @@ jobs:
           cd ./EAD_FE_CA1_2023
           ls
           docker image build -t fe-service-ca2:v1 -f Dockerfile .
-          docker tag ws-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
+          docker tag fe-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
           
       - uses: azure/setup-kubectl@v2.0
       - name: Log in with Azure
