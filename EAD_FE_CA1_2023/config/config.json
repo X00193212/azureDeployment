@@ -2,8 +2,8 @@
 	"development": {
         "config_id": "development",
         "app_name": "BP Category Calculator",
-        "database": "mongodb://newcosmosmongodb:oLxHB8s4FeLYQpIDqi63IAFL0I1DxrJiGCncOz2XHPQCMaafDUbIfH2F6XOGqQQij1WY2JvG9FaUACDb4Pmq7g==@newcosmosmongodb.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@newcosmosmongodb@",
-		"database_name": "cosmosmongodb",
+        "database": "mongodb://mongo-0.mongo:27017/test,
+		"database_name": "test",
 		"database_collection": "customers",
 		"webservice": "http://4.231.130.227:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/",
 		"exposedPort": "22137"
