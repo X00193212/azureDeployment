@@ -27,7 +27,7 @@ jobs:
         run: |
           cd ./EAD_WS_CA1_2023
           mvn clean package
-      - name: create a docker image of fe service
+      - name: create a docker image of ws service from war
         run: |
           ls
           docker image build -t ws-service-ca2:v1 -f Dockerfile .
@@ -59,4 +59,4 @@ jobs:
         uses: azure/setup-kubectl@v1
         
       - name: deploy image from acr to aks
-        run: kubectl apply -f create-nodejs-service-manifest.yaml
+        run: kubectl apply -f create-service-manifest.yaml
