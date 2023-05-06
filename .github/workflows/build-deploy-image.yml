@@ -27,11 +27,11 @@ jobs:
         run: |
           cd ./EAD_WS_CA1_2023
           mvn clean package
-      - name: create a docker image of war file
+      - name: create a docker image of fe service
         run: |
           ls
-          docker image build -t web-service-ca2:v1 -f ./EAD_WS_CA1_2023/Dockerfile .
-          docker tag web-service-ca2:v1 ca2acrx00193212.azurecr.io/web-service-ca2:v1
+          docker image build -t fe-service-ca2:v1 -f ./EAD_FE_CA1_2023/Dockerfile .
+          docker tag fe-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
           
       - uses: azure/setup-kubectl@v2.0
       - name: Log in with Azure
@@ -41,7 +41,7 @@ jobs:
       - name: push image to acr
         run: |
           az acr login --name ca2acrx00193212 
-          docker push ca2acrx00193212.azurecr.io/web-service-ca2:v1    
+          docker push ca2acrx00193212.azurecr.io/fe-service-ca2:v1    
       
       - name: Log in with Azure
         uses: azure/login@v1
