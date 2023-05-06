@@ -1,0 +1,41 @@
+# First, create a storage class
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: myazurefile
+provisioner: kubernetes.io/azure-file
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+mountOptions:
+  - dir_mode=0755
+  - file_mode=0755
+  - uid=1000
+  - gid=1000
+parameters:
+  skuName: Standard_LRS #Azure storage account SKU tier
+
+---
+# Second create a cluster role and binding
+#AKS clusters use Kubernetes role-based access control (RBAC) to limit actions that can be performed. 
+#Roles define the permissions to grant, and bindings apply them to desired users. 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:azure-cloud-provider
+rules:
+- apiGroups: ['']
+  resources: ['secrets']
+  verbs:     ['get','create']
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:azure-cloud-provider
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: system:azure-cloud-provider
+subjects:
+- kind: ServiceAccount
+  name: persistent-volume-binder
+  namespace: kube-system
