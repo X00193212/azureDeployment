@@ -54,11 +54,11 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'          
       - name: associate creds
         run: |
-          az aks update -n AKSCluster -g ca2-resource-group --attach-acr ca2acrx00193212
+          az aks update -n AKSCluster -g my-resource-group --attach-acr ca2acrx00193212
           
       - name: kubeconf file generation
         run: |
-          az aks get-credentials --resource-group ca2-resource-group --name AKSCluster
+          az aks get-credentials --resource-group my-resource-group --name AKSCluster
           
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
