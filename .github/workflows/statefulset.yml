@@ -1,0 +1,24 @@
+on:
+  workflow_dispatch: 
+    
+jobs:
+  statefulset-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/setup-kubectl@v2.0
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          
+      - name: kubeconf file generation
+        run: |
+          az aks get-credentials --resource-group my-resource-group --name AKSCluster
+          
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+        
+      - name: deploy stateful set
+        run: |
+         kubectl apply -f ./create-nodejs-service-manifest.yaml
