@@ -15,7 +15,7 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Copy app source
-COPY . .
+COPY ./EAD_FE_CA1_2023/fe-server.js ./
 
 # App binds to port 22137 - the EXPOSE instruction maps it to the docker daemon
 EXPOSE 22137
