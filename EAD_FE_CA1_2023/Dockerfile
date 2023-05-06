@@ -1,7 +1,7 @@
 FROM node:10.15.1
 
 # Create dir for app code inside image => working dir for app
-WORKDIR /usr/src/app
+WORKDIR ./usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
