@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  blue-to-green:
+  monitoring:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,11 +27,11 @@ jobs:
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo update
           helm install prometheus prometheus-community/prometheus
-          kubectl port-forward svc/prometheus-server -n monitoring 4000:90
+          kubectl port-forward svc/prometheus-server -n default 4000:90
 
       - name: install and setup grafana
         run: |
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
           helm install grafana stable/grafana
-          kubectl port-forward svc/grafana -n monitoring 4000:88
+          kubectl port-forward svc/grafana -n default 4000:88
