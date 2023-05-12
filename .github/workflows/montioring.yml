@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  blue-to-green:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      - name: associate creds
+        run: |
+          az aks update -n AKSCluster -g my-resource-group --attach-acr ca2acrx00193212
+
+      - name: kubeconf file generation
+        run: |
+          az aks get-credentials --resource-group my-resource-group --name AKSCluster
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: install and setup prometheus
+        run: |
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm install prometheus prometheus-community/prometheus
+          kubectl port-forward svc/prometheus-server -n monitoring 4000:90
+
+      - name: install and setup grafana
+        run: |
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+          helm install grafana stable/grafana
+          kubectl port-forward svc/grafana -n monitoring 4000:88
