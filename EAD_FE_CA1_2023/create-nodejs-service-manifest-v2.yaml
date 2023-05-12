@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   # deployment name
-  name: node-deployment
+  name: node-deployment-v1
   labels:
     app: node
     deployment: green
