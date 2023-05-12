@@ -5,20 +5,20 @@ metadata:
   name: node-deployment
   labels:
     app: node
-    version: "2.0"
+    deployment: green
 spec:
   # modify replicas according to your case
   replicas: 1
   selector:
     matchLabels:
       app: node
-      version: "2.0"
+      deployment: green
   # pod template
   template:
     metadata:
       labels:
         app: node
-        version: "2.0"
+        deployment: green
     spec:
       # pod contains 1 container
       containers:

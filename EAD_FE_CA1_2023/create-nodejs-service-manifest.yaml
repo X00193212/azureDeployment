@@ -11,13 +11,13 @@ spec:
   selector:
     matchLabels:
       app: node
-      vesrion: "1.0"
+      deployment: blue 
   # pod template
   template:
     metadata:
       labels:
         app: node
-        vesrion: "1.0"
+        deployment: blue 
     spec:
       # pod contains 1 container
       containers:
@@ -46,4 +46,4 @@ spec:
     # Loadbalance traffic across Pods matching
     # this label selector
     app: node
-    vesrion: "1.0"
+    deployment: blue 

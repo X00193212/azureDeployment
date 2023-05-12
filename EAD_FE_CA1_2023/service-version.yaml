@@ -15,4 +15,4 @@ spec:
     # Loadbalance traffic across Pods matching
     # this label selector
     app: node
-    vesrion: "2.0"
+    deployment: green 
