@@ -24,4 +24,4 @@ jobs:
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
           helm install grafana grafana/grafana
-           kubectl expose service grafana --type=LoadBalancer --target-port=3000 --name=grafana-ext
+          kubectl expose service grafana --type=LoadBalancer --target-port=3000 --name=grafana-ext
