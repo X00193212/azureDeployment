@@ -51,7 +51,7 @@ jobs:
           az aks get-credentials --resource-group my-resource-group --name AKSCluster
           
       - name: Install kubectl
-        uses: azure/setup-kubectl@v1
+        uses: azure/setup-kubectl@v3
         
       - name: deploy image from acr to aks
         run: |
