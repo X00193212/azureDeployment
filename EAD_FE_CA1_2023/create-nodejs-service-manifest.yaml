@@ -10,12 +10,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: node    
+      app: node
+      vesrion: "1.0"
   # pod template
   template:
     metadata:
       labels:
         app: node
+        vesrion: "1.0"
     spec:
       # pod contains 1 container
       containers:
@@ -44,3 +46,4 @@ spec:
     # Loadbalance traffic across Pods matching
     # this label selector
     app: node
+    vesrion: "1.0"

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # The unique Service instance/name
+  name: node-service
+spec:
+  # Add external load balancer
+  # *Only supported by some cloud providers*
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 22137
+      targetPort: 22137
+  selector:
+    # Loadbalance traffic across Pods matching
+    # this label selector
+    app: node
+    vesrion: "2.0"
