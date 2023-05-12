@@ -24,3 +24,4 @@ jobs:
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
           helm install grafana grafana/grafana
+          kubectl expose deployment grafana --type=LoadBalancer --name=grafana-lb
