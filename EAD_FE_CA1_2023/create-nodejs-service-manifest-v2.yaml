@@ -5,6 +5,7 @@ metadata:
   name: node-deployment
   labels:
     app: node
+    version: "2.0"
 spec:
   # modify replicas according to your case
   replicas: 1
