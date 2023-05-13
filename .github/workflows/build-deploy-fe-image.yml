@@ -15,7 +15,7 @@ jobs:
         uses: crazy-max/ghaction-setup-docker@v1
 
       - run: |
-          echo DB_CONNECTION_STRING
+          echo env.DB_CONNECTION_STRING
           set -x
           docker version
           docker run hello-world
