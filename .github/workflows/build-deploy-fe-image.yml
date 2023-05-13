@@ -19,6 +19,10 @@ jobs:
         with:
           distribution: zulu
           java-version: 11
+
+      - name: Set environment variable for DB connection string
+        run: echo "::set-env name=DB_CONNECTION_STRING::${{ secrets.DB_CONNECTION_STRING }}"
+
       - name: create a docker image of fe service from war
         run: |
           cd ./EAD_FE_CA1_2023
