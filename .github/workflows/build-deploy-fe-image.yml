@@ -2,6 +2,9 @@ name: Deploy fe service
 
 on:
   workflow_dispatch:
+  
+env:
+  DB_CONNECTION_STRING: '${{ secrets.DB_CONNECTION_STRING }}'
 
 jobs:
   deploy-fe-service:
@@ -21,6 +24,7 @@ jobs:
         with:
           distribution: zulu
           java-version: 11
+          
 
       - name: create a docker image of fe service from war
         run: |
