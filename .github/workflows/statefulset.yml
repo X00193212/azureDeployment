@@ -27,3 +27,16 @@ jobs:
          kubectl apply -f 06a_07b-mongo-configmap.yaml -n prod
          kubectl apply -f 07c-mongodb-pv.yaml -n prod
          kubectl apply -f 05b_06c_07d-mongodb-headless.yaml -n prod
+
+      - name: configure stateful sets
+        run: |
+         kubectl run -i --tty ubuntu --image=ubuntu:20.04 --restart=Never --namespace=prod -- bash -il
+         apt-get update && apt-get install mongodb-clients -y
+         rs.initiate( {
+         ... _id: "rs0",
+         ... members:[{ _id: 0, host: "mongo-0.mongo:27017" }]
+         ... });
+         rs.add("mongo-1.mongo:27017");
+         rs.add("mongo-2.mongo:27017");
+         exit
+         exit
