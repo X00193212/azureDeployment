@@ -1,3 +1,5 @@
+name: Deploy fe service
+
 on:
   workflow_dispatch: 
     
@@ -55,7 +57,7 @@ jobs:
         
       - name: deploy image from acr to aks
         run: |
-          kubectl create namespace qa 
+         kubectl create namespace qa 
          cd ./EAD_FE_CA1_2023
          kubectl apply -f create-nodejs-service-manifest.yaml -n qa
          kubectl apply -f create-nodejs-service-manifest-v2.yaml -n qa
