@@ -19,11 +19,17 @@ spec:
         app: node
         deployment: blue 
     spec:
+      securityContext:
+        runAsUser: 1000 # This field specifies the User ID (UID) with which to run the container process.
+        fsGroup: 3000  # The field defines a special supplemental group that assigns a group ID (GID) for all containers in the pod
       # pod contains 1 container
       containers:
       - name: node
         image: ca2acrx00193212.azurecr.io/fe-service-ca2-prod:v1
         # container opens port 22137
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false # This field controls whether a process can get more privileges than its parent process. More specifically, it controls whether the no_new_privs flag will be set on the container process
         ports:
         - containerPort: 22137
           name: http

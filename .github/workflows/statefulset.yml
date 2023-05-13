@@ -20,9 +20,10 @@ jobs:
         uses: azure/setup-kubectl@v1
         
       - name: deploy stateful set
-        run: |
+        run: | 
+         kubectl create namespace prod
          cd ./StatefulSet 
-         kubectl apply -f 07a-azure-volume.yaml -n qa
-         kubectl apply -f 06a_07b-mongo-configmap.yaml -n qa
-         kubectl apply -f 07c-mongodb-pv.yaml -n qa
-         kubectl apply -f 05b_06c_07d-mongodb-headless.yaml -n qa
+         kubectl apply -f 07a-azure-volume.yaml -n prod
+         kubectl apply -f 06a_07b-mongo-configmap.yaml -n prod
+         kubectl apply -f 07c-mongodb-pv.yaml -n prod
+         kubectl apply -f 05b_06c_07d-mongodb-headless.yaml -n prod
