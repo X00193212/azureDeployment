@@ -22,7 +22,7 @@ jobs:
 
       - name: Set environment variable for DB connection string
         env:
-          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+          DB_CONNECTION_STRING: '${{ secrets.DB_CONNECTION_STRING }}'
 
       - name: create a docker image of fe service from war
         run: |
