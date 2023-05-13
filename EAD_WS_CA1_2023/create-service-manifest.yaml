@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         app: bp
+    spec:
       # pod contains 1 container
       containers:
       - name: bp
