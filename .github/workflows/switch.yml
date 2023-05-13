@@ -25,4 +25,4 @@ jobs:
       - name: rout traffic to green
         run: |
           cd ./EAD_FE_CA1_2023
-          kubectl apply -f service-version.yaml
+          kubectl apply -f service-version.yaml -n qa

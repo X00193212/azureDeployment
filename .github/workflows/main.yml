@@ -1,4 +1,4 @@
-name: Test
+name: AKS ACR create
 
 on: 
   workflow_dispatch:

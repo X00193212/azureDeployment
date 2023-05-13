@@ -62,4 +62,4 @@ jobs:
       - name: deploy image from acr to aks
         run: |
          cd ./EAD_WS_CA1_2023
-         kubectl apply -f create-service-manifest.yaml
+         kubectl apply -f create-service-manifest.yaml -n qa
