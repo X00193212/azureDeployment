@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-reports
-          path: ./EAD_WS_CA1_2023/target/jacoco-xml
+          path: ./EAD_WS_CA1_2023/target/site/jacoco-aggregate
           
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
@@ -38,5 +38,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
             args: >
-              -Dsonar.coverageReportPaths=./EAD_WS_CA1_2023/target/jacoco-xml/jacoco.xml
+              -Dsonar.coverage.jacoco.xmlReportPaths=./EAD_WS_CA1_2023/target/site/jacoco-aggregate/jacoco.xml
 
