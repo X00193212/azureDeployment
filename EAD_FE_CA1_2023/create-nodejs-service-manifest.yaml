@@ -25,7 +25,7 @@ spec:
       # pod contains 1 container
       containers:
       - name: node
-        image: ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v22:v2
+        image: ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v1:v1
         # container opens port 22137
         securityContext:
           runAsNonRoot: true

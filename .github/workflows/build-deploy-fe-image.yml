@@ -25,8 +25,8 @@ jobs:
           cd ./EAD_FE_CA1_2023
           ls
           bash sec.sh
-          docker image build -t fe-service-ca2-prod-v22:v2 -f Dockerfile .
-          docker tag fe-service-ca2-prod-v22:v2 ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v22:v2
+          docker image build -t fe-service-ca2-prod-v1:v1 -f Dockerfile .
+          docker tag fe-service-ca2-prod-v1:v1 ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v1:v1
           
 
       - uses: azure/setup-kubectl@v2.0
@@ -39,7 +39,7 @@ jobs:
       - name: push image to acr
         run: |
           az acr login --name ca2acrx00193212 
-          docker push ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v22:v2    
+          docker push ca2acrx00193212.azurecr.io/fe-service-ca2-prod-v1:v1    
 
       - name: Log in with Azure
         uses: azure/login@v1

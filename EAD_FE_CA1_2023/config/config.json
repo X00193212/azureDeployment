@@ -3,8 +3,8 @@
 		"config_id": "development",
 		"app_name": "BP Category Calculator",
 		"database": "${{ secrets.DB_CONNECTION_STRING }}",
-		"database_name": "${{ secrets.DATABASENAME }}",
-		"database_collection": "${{ secrets.DATABASECOLLECTION }}",
+		"database_name": "test",
+		"database_collection": "customers",
 		"webservice": "http://bp-service:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/",
 		"exposedPort": "22137"
 	}

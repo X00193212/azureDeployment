@@ -5,8 +5,6 @@ json=$(cat config/config.json)
 
 # Replace the secret value placeholder with the actual value of the secret
 json=${json/\$\{\{ secrets\.DB_CONNECTION_STRING \}\}/${DB_CONNECTION_STRING}}
-json=${json/\$\{\{ secrets\.DATABASENAME \}\}/${DATABASENAME}}
-json=${json/\$\{\{ secrets\.DATABASECOLLECTION \}\}/${DATABASECOLLECTION}}
 
 # Write the updated JSON back to the file
 echo "$json" > config/config.json
