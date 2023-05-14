@@ -20,18 +20,11 @@ jobs:
           docker version
           docker run hello-world
 
-      - name: Setup java
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 11
-          
-
-      - name: create a docker image of fe service from war
+      - name: create a docker image of fe service
         run: |
           cd ./EAD_FE_CA1_2023
           ls
-          docker image build -t fe-service-ca2-prod:v1 -f Dockerfile .
+          docker image build -t fe-service-ca2-prod-1:v2 -f Dockerfile .
           docker tag fe-service-ca2-prod-1:v2 ca2acrx00193212.azurecr.io/fe-service-ca2-prod-1:v2
           
 
