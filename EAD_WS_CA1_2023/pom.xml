@@ -67,6 +67,10 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>target/jacoco-xml</outputDirectory>
+                            <outputFormat>xml</outputFormat>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
