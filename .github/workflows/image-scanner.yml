@@ -1,0 +1,34 @@
+name: Scan image
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deploy-fe-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - run: |
+          set -x
+          docker version
+          docker run hello-world
+          
+      - name: build image
+        run: |
+          cd ./EAD_FE_CA1_2023
+          docker image build -t fe-service-ca2-prod-v1:v1 -f Dockerfile .
+          docker save fe-service-ca2-prod-v1:v1 > fe-service-ca2-prod-v1.tar
+          
+      - name: SonarQube Scan my image
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+         SONAR_HOST_URL: "https://sonarcloud.io"
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         DOCKER_SCAN_REPORT_PATH: fe-service-ca2-prod-v1.tar
+         DOCKER_IMAGE_NAME: fe-service-ca2-prod-v1:v1
+        with:
+         arguments: -Dsonar.qualitygate.wait=true
