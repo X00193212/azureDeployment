@@ -26,6 +26,7 @@ jobs:
       - name: SonarQube Scan my image
         uses: sonarsource/sonarqube-scan-action@master
         env:
+         SONAR_HOST_URL: "https://sonarcloud.io"
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
          DOCKER_SCAN_REPORT_PATH: fe-service-ca2-prod-v1.tar
          DOCKER_IMAGE_NAME: fe-service-ca2-prod-v1:v1
