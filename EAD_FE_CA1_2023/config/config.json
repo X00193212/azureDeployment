@@ -2,7 +2,7 @@
 	"development": {
 		"config_id": "development",
 		"app_name": "BP Category Calculator",
-		"database": "'$DB_CONNECTION_STRING'",
+		"database": "${{ secrets.DB_CONNECTION_STRING }}",
 		"database_name": "test",
 		"database_collection": "customers",
 		"webservice": "http://bp-service:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/",
