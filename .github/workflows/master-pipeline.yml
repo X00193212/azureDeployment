@@ -54,6 +54,9 @@ jobs:
           name: coverage-reports
           path: ./EAD_WS_CA1_2023/target/site/jacoco-aggregate
           
+      - name: Clear SonarScanner user cache
+        run: rm -rf /opt/sonar-scanner/.sonar/cache
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
