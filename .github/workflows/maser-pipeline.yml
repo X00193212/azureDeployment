@@ -40,8 +40,4 @@ jobs:
             -Dsonar.exclusions=./EAD_FE_CA1_2023/node_modules/**/*,coverage/**/*,**/*.java
             
       - name: Call Java sonar test Workflow
-        uses: actions/workflow-dispatch@v2
-        with:
-          workflow: WebService scan
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          ref: main
+        uses: ./.github/workflows/java-sonar.yml
