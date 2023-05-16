@@ -82,7 +82,7 @@ jobs:
           docker image build -t fe-service-ca2:v1 -f Dockerfile .
           docker save fe-service-ca2:v1 > fe-service-ca2.tar
           docker tag fe-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
-          docker tag fe-service-ca2:v2 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
+          docker tag fe-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v2
 
       - name: create war file of ws
         run: |
