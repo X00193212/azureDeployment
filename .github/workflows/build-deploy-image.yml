@@ -33,8 +33,8 @@ jobs:
           cd ./EAD_WS_CA1_2023
           ls
           bash src/main/resources/sc.sh
-          docker image build -t ws-service-ca2-prod:v1 -f Dockerfile .
-          docker tag ws-service-ca2-prod:v1 ca2acrx00193212.azurecr.io/ws-service-ca2-prod:v1
+          docker image build -t ws-service-ca2-qa:v1 -f Dockerfile .
+          docker tag ws-service-ca2-qa:v1 ca2acrx00193212.azurecr.io/ws-service-ca2-qa:v1
           
       - uses: azure/setup-kubectl@v2.0
       - name: Log in with Azure
@@ -60,4 +60,4 @@ jobs:
       - name: deploy image from acr to aks
         run: | 
          cd ./EAD_WS_CA1_2023
-         kubectl apply -f create-service-manifest.yaml -n prod
+         kubectl apply -f create-service-manifest.yaml -n qa
