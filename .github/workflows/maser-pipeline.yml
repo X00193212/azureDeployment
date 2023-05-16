@@ -43,4 +43,5 @@ jobs:
         uses: actions/workflow-dispatch@v2
         with:
           workflow: WebService scan
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
           ref: main
