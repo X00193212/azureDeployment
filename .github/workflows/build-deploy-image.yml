@@ -27,15 +27,14 @@ jobs:
       - name: create war file
         run: |
           cd ./EAD_WS_CA1_2023
+          sed -i "s@DB_CONNECTION@$DB_CONNECTION_STRING_BE@g" src/main/resources/config.properties
+          cat src/main/resources/config.properties          
           mvn clean package
           
       - name: create a docker image of ws service from war
         run: |
           cd ./EAD_WS_CA1_2023
           ls
-          sed -i "s@DB_CONNECTION@$DB_CONNECTION_STRING_BE@g" src/main/resources/config.properties
-          cat src/main/resources/config.properties
-          
           # bash src/main/resources/sc.sh
           docker image build -t ws-service-ca2-qa:v1 -f Dockerfile .
           docker tag ws-service-ca2-qa:v1 ca2acrx00193212.azurecr.io/ws-service-ca2-qa:v1
