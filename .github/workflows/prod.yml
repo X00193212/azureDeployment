@@ -1,0 +1,181 @@
+name: qa pipeline
+on:
+  workflow_dispatch:
+  
+env:
+  DB_CONNECTION_STRING: '${{ secrets.DB_CONNECTION_STRING }}'
+  DB_CONNECTION_STRING_BE: '${{ secrets.DB_CONNECTION_STRING_BE_PROD }}'
+
+jobs:
+  sonar-scan:
+    runs-on: ubuntu-latest    
+    steps:
+      - name: checkout the repo    
+        uses: actions/checkout@v2      
+        
+      - name: Set up node
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: '14'
+          
+      - name: run fe tests 
+        run: |
+          cd ./EAD_FE_CA1_2023
+          npm install
+          npm test
+      
+      - name: Upload test reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: ./EAD_FE_CA1_2023/coverage
+          
+#################################################################################################################################################
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.8.2
+      - run: mvn --version
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+      - run: java --version
+      
+      - name: Build and Test
+        run: |
+          ls
+          cd ./EAD_WS_CA1_2023
+          mvn clean verify
+
+      - name: Upload Code Coverage Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: ./EAD_WS_CA1_2023/target/site/jacoco-aggregate
+          
+      - name: Clear SonarScanner user cache
+        run: rm -rf /opt/sonar-scanner/.sonar/cache
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_HOST_URL: "https://sonarcloud.io"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+##################################################################################################################################################
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - run: |
+          set -x
+          docker version
+          docker run hello-world
+          
+      - name: create fe image to scan
+        run: |
+          ls
+          cd ./EAD_FE_CA1_2023
+          bash sec.sh
+          docker image build -t fe-service-ca2:v1 -f Dockerfile .
+          docker save fe-service-ca2:v1 > fe-service-ca2.tar
+          docker tag fe-service-ca2:v1 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
+          docker tag fe-service-ca2:v2 ca2acrx00193212.azurecr.io/fe-service-ca2:v1
+
+      - name: create war file of ws
+        run: |
+          ls
+          cd ./EAD_WS_CA1_2023
+          bash src/main/resources/sc.sh
+          cat src/main/resources/config.properties 
+          mvn clean package
+          
+      - name: create a docker image of ws service from war
+        run: |
+          ls
+          cd ./EAD_WS_CA1_2023
+          ls
+          docker image build -t ws-service-ca2:v1 -f Dockerfile .
+          docker save ws-service-ca2:v1 > ws-service-ca2.tar
+          docker tag ws-service-ca2:v1 ca2acrx00193212.azurecr.io/ws-service-ca2:v1
+          
+          
+      - name: SonarQube Scan my fe image
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+         SONAR_HOST_URL: "https://sonarcloud.io"
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         DOCKER_SCAN_REPORT_PATH: fe-service-ca2.tar
+         DOCKER_IMAGE_NAME: fe-service-ca2:v1
+        with:
+         arguments: -Dsonar.qualitygate.wait=true
+         
+      - name: SonarQube Scan my ws image
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+         SONAR_HOST_URL: "https://sonarcloud.io"
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         DOCKER_SCAN_REPORT_PATH: ws-service-ca2.tar
+         DOCKER_IMAGE_NAME: ws-service-ca2:v1
+        with:
+         arguments: -Dsonar.qualitygate.wait=true
+         
+####################################################################################################################################################
+
+      - uses: azure/setup-kubectl@v2.0
+
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+      - name: push image to acr
+        run: |
+          az acr login --name ca2acrx00193212 
+          docker push ca2acrx00193212.azurecr.io/fe-service-ca2:v1    
+          docker push ca2acrx00193212.azurecr.io/ws-service-ca2:v1
+          docker push ca2acrx00193212.azurecr.io/fe-service-ca2:v2  
+
+      - name: kubeconf file generation
+        run: |
+          az aks get-credentials --resource-group my-resource-group --name AKSCluster
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: deploy stateful set
+        run: |
+          kubectl delete namespace qa
+          kubectl create namespace prod
+          cd ./StatefulSet 
+          kubectl apply -f 07a-azure-volume.yaml -n prod
+          kubectl apply -f 06a_07b-mongo-configmap.yaml -n prod
+          kubectl apply -f 07c-mongodb-pv.yaml -n prod
+          kubectl apply -f 05b_06c_07d-mongodb-headless.yaml -n prod
+
+      - name: deploy image from acr to aks
+        run: |
+          cd ./EAD_FE_CA1_2023
+          kubectl apply -f create-nodejs-service-manifest.yaml -n prod
+          kubectl apply -f create-nodejs-service-manifest-v2.yaml -n prod
+          
+          ls
+          cd ..
+          cd ./EAD_WS_CA1_2023
+          kubectl apply -f create-service-manifest.yaml -n prod          
+
+      ####################################################################################################################################################
+      - name: install and setup prometheus
+        run: |
+          kubectl config set-context --current --namespace=prod
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm install prometheus prometheus-community/prometheus
+          
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+          helm install grafana grafana/grafana
+          kubectl expose service grafana --type=LoadBalancer --target-port=3000 --name=grafana-ext
+
