@@ -1,4 +1,4 @@
-name: qa pipeline
+name: prod pipeline
 on:
   workflow_dispatch:
   
