@@ -24,12 +24,11 @@ jobs:
 
       - name: install and setup prometheus
         run: |
+          kubectl config set-context --current --namespace=qa
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo update
           helm install prometheus prometheus-community/prometheus
-
-      - name: install and setup grafana
-        run: |
+          
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
           helm install grafana grafana/grafana

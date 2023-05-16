@@ -23,7 +23,7 @@ spec:
       # pod contains 1 container
       containers:
       - name: bp
-        image: ca2acrx00193212.azurecr.io/ws-service-ca2-qa:v1
+        image: ca2acrx00193212.azurecr.io/ws-service-ca2:v1
         # container opens port 8080
         securityContext:
           runAsNonRoot: true
@@ -41,7 +41,7 @@ metadata:
 spec:
   # Add external load balancer
   # *Only supported by some cloud providers*
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     # Accept traffic sent to port 8080
     - name: http
