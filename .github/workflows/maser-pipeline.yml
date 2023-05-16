@@ -1,3 +1,4 @@
+name: e2e deployment
 on:
   workflow_dispatch:
   
