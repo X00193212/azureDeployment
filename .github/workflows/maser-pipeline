@@ -15,10 +15,11 @@ jobs:
         uses: actions/setup-node@v2.4.1
         with:
           node-version: '14'
+          
       - run: |
-          cd ./EAD_FE_CA1_2023
-          npm install
-          npm test
+         cd ./EAD_FE_CA1_2023
+         npm install
+         npm test
       
       - name: Upload test reports
         uses: actions/upload-artifact@v2
