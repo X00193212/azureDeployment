@@ -8,18 +8,14 @@ env:
 
 jobs:
   deploy-fe-service:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v2
-      
+      - uses: actions/checkout@v2      
       - name: Set up node
         uses: actions/setup-node@v2.4.1
         with:
           node-version: '14'
-          
-      - name: FE Unit test and code-coverage report
-        run: |
+      - run: |
           cd ./EAD_FE_CA1_2023
           npm install
           npm test
