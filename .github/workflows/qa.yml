@@ -148,6 +148,7 @@ jobs:
           kubectl apply -f create-nodejs-service-manifest.yaml -n prod
           
           cd ..
+          ls
           cd ./EAD_WS_CA1_2023
           kubectl apply -f create-service-manifest.yaml -n prod          
 
