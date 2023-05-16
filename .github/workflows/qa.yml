@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   
 env:
-  DB_CONNECTION_STRING: '${{ secrets.DB_CONNECTION_STRING }}'
+  DB_CONNECTION_STRING: '${{ secrets.DB_CONNECTION_STRING_QA }}'
 
 jobs:
   sonar-scan:
@@ -144,10 +144,10 @@ jobs:
       - name: deploy image from acr to aks
         run: |
           cd ./EAD_FE_CA1_2023
-          kubectl apply -f create-nodejs-service-manifest.yaml -n prod
+          kubectl apply -f create-nodejs-service-manifest.yaml -n qa
           
           ls
           cd ..
           cd ./EAD_WS_CA1_2023
-          kubectl apply -f create-service-manifest.yaml -n prod          
+          kubectl apply -f create-service-manifest.yaml -n qa          
 
