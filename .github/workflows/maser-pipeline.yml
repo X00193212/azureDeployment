@@ -38,3 +38,9 @@ jobs:
           args: >
             -Dsonar.javascript.lcov.reportPaths=./EAD_FE_CA1_2023/coverage/lcov.info
             -Dsonar.exclusions=./EAD_FE_CA1_2023/node_modules/**/*,coverage/**/*,**/*.java
+            
+      - name: Call Java sonar test Workflow
+        uses: actions/workflow-dispatch@v2
+        with:
+          workflow: WebService scan
+          ref: main
