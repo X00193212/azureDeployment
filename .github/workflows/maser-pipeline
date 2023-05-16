@@ -1,5 +1,3 @@
-name: Blood Pressure QA e2e deployment
-
 on:
   workflow_dispatch:
   
@@ -10,16 +8,19 @@ jobs:
   deploy-fe-service:
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v2      
+      - name: checkout the repo    
+        uses: actions/checkout@v2      
+        
       - name: Set up node
         uses: actions/setup-node@v2.4.1
         with:
           node-version: '14'
           
-      - run: |
-         cd ./EAD_FE_CA1_2023
-         npm install
-         npm test
+      - name: run fe tests 
+        run: |
+          cd ./EAD_FE_CA1_2023
+          npm install
+          npm test
       
       - name: Upload test reports
         uses: actions/upload-artifact@v2
