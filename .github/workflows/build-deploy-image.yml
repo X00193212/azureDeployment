@@ -1,6 +1,7 @@
 on:
   workflow_dispatch: 
-    
+env:
+  DB_CONNECTION_STRING_BE: '${{ secrets.DB_CONNECTION_STRING_BE }}'
 jobs:
   docker:
     runs-on: ubuntu-latest
