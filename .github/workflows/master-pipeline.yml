@@ -37,13 +37,12 @@ jobs:
         with:
           args: >
             -Dsonar.javascript.lcov.reportPaths=./EAD_FE_CA1_2023/coverage/lcov.info
-            -Dsonar.exclusions=./EAD_FE_CA1_2023/node_modules/**/*,coverage/**/*,**/*.java
-            
-      - name: checkout the repo    
-        uses: actions/checkout@v2    
+            -Dsonar.exclusions=./EAD_FE_CA1_2023/node_modules/**/*,coverage/**/*,**/*.java  
        
-      - name: checkout the repo  
-        run:  ls
-        
+      - name: show content  
+        run: | 
+          ls
+          cd 
+          
       - name: Call Java sonar test Workflow
         uses: ./.github/workflows/java-sonar.yml
