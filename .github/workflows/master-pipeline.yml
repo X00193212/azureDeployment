@@ -38,11 +38,37 @@ jobs:
           args: >
             -Dsonar.javascript.lcov.reportPaths=./EAD_FE_CA1_2023/coverage/lcov.info
             -Dsonar.exclusions=./EAD_FE_CA1_2023/node_modules/**/*,coverage/**/*,**/*.java  
-       
-      - name: show content  
-        run: | 
-          ls
-          cd 
+#################################################################################################################################################
+#Sonar scan for WS
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.8.2
+      - run: mvn --version
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+      - run: java --version
+      
+      - name: Build and Test
+        run: |
+          cd ./EAD_WS_CA1_2023
+          mvn clean verify
+
+      - name: Upload Code Coverage Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: ./EAD_WS_CA1_2023/target/site/jacoco-aggregate
           
-      - name: Call Java sonar test Workflow
-        uses: ./.github/workflows/java-sonar.yml
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_HOST_URL: "https://sonarcloud.io"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+            args: >
+              -Dsonar.coverage.jacoco.xmlReportPaths=./EAD_WS_CA1_2023/target/site/jacoco-aggregate/jacoco.xml
+
