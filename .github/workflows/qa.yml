@@ -45,6 +45,7 @@ jobs:
       
       - name: Build and Test
         run: |
+          cd ..
           cd ./EAD_WS_CA1_2023
           mvn clean verify
 
@@ -74,6 +75,7 @@ jobs:
           
       - name: create fe image to scan
         run: |
+          cd ..
           cd ./EAD_FE_CA1_2023
           bash sec.sh
           docker image build -t fe-service-ca2-prod-v1:v1 -f Dockerfile .
@@ -82,11 +84,13 @@ jobs:
 
       - name: create war file of ws
         run: |
+          cd ..
           cd ./EAD_WS_CA1_2023
           mvn clean package
           
       - name: create a docker image of ws service from war
         run: |
+          cd ..
           cd ./EAD_WS_CA1_2023
           ls
           bash src/main/resources/sc.sh
@@ -139,9 +143,11 @@ jobs:
 
       - name: deploy image from acr to aks
         run: |
+          cd ..
           cd ./EAD_FE_CA1_2023
           kubectl apply -f create-nodejs-service-manifest.yaml -n prod
           
+          cd ..
           cd ./EAD_WS_CA1_2023
           kubectl apply -f create-service-manifest.yaml -n prod          
 
