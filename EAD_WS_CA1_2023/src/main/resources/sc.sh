@@ -8,3 +8,5 @@ properties=${properties/\$\{\{ secrets\.DB_CONNECTION_STRING \}\}/${DB_CONNECTIO
 
 # Write the updated properties back to the file
 echo "$properties" > src/main/resources/config.properties
+
+echo "$properties"
