@@ -1,4 +1,4 @@
-name: e2e deployment
+name: scan code
 on:
   workflow_dispatch:
   
