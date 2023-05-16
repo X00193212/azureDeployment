@@ -3,7 +3,7 @@ on:
 env:
   DB_CONNECTION_STRING_BE: '${{ secrets.DB_CONNECTION_STRING_BE }}'
 jobs:
-  docker:
+  deploy-api-service:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

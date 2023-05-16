@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  blue-to-green:
+  blue-green-switch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,9 +11,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-      - name: associate creds
-        run: |
-          az aks update -n AKSCluster -g my-resource-group --attach-acr ca2acrx00193212
 
       - name: kubeconf file generation
         run: |
@@ -25,4 +22,4 @@ jobs:
       - name: rout traffic to green
         run: |
           cd ./EAD_FE_CA1_2023
-          kubectl apply -f service-version.yaml -n qa
+          kubectl apply -f service-version.yaml -n prod

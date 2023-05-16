@@ -7,7 +7,7 @@ env:
   DB_CONNECTION_STRING_BE: '${{ secrets.DB_CONNECTION_STRING_BE }}'
 
 jobs:
-  sonar-scan:
+  QA-deployment:
     runs-on: ubuntu-latest    
     steps:
       - name: checkout the repo    
@@ -143,26 +143,21 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
 
+      - name: deploy stateful set
+        run: |
+            kubectl create namespace qa
+              cd ./StatefulSet 
+              kubectl apply -f 07a-azure-volume.yaml -n qa
+              kubectl apply -f 06a_07b-mongo-configmap.yaml -n qa
+              kubectl apply -f 07c-mongodb-pv.yaml -n qa
+              kubectl apply -f 05b_06c_07d-mongodb-headless.yaml -n qa
+
       - name: deploy image from acr to aks
         run: |
           cd ./EAD_FE_CA1_2023
-          kubectl apply -f create-nodejs-service-manifest.yaml -n qa
-          
+          kubectl apply -f create-nodejs-service-manifest.yaml -n qa      
           ls
           cd ..
           cd ./EAD_WS_CA1_2023
           kubectl apply -f create-service-manifest.yaml -n qa          
-
-      ####################################################################################################################################################
-      - name: install and setup prometheus
-        run: |
-          kubectl config set-context --current --namespace=qa
-          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-          helm repo update
-          helm install prometheus prometheus-community/prometheus
-          
-          helm repo add grafana https://grafana.github.io/helm-charts
-          helm repo update
-          helm install grafana grafana/grafana
-          kubectl expose service grafana --type=LoadBalancer --target-port=3000 --name=grafana-ext
 
