@@ -33,7 +33,7 @@ jobs:
         run: |
           cd ./EAD_WS_CA1_2023
           ls
-          sed -i "s/DB_CONNECTION/$DB_CONNECTION_STRING_BE/g" src/main/resources/config.properties
+          sed -i "s@DB_CONNECTION@$DB_CONNECTION_STRING_BE@g" src/main/resources/config.properties
           cat path/to/your/config/file
           
           # bash src/main/resources/sc.sh
