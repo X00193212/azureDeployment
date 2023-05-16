@@ -93,7 +93,7 @@ jobs:
           ls
           cd ./EAD_WS_CA1_2023
           ls
-          bash src/main/resources/sc.sh
+          bash ./src/main/resources/sc.sh
           docker image build -t ws-service-ca2-prod:v1 -f Dockerfile .
           docker save ws-service-ca2-prod:v1 > ws-service-ca2-prod:v1.tar
           docker tag ws-service-ca2-prod:v1 ca2acrx00193212.azurecr.io/ws-service-ca2-prod:v1
